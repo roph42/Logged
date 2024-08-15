@@ -1,0 +1,71 @@
+<html>
+
+<head>
+  <title>Logged</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <main class="flex items-center justify-center w-full h-screen border border-black">
+    {% if current_user.is_authenticated %}
+    <section class="flex flex-col space-y-16 w-5/6">
+      <div class="flex justify-between">
+        <h2>Hi, {{ current_user.username }}!</h2>
+        <p>
+          <a class="btn btn-primary" href="{{ url_for('logout') }}">Logout</a>
+        </p>
+      </div>
+      <div>
+        <h1>User List</h1>
+        <table class="flex flex-col justify-between">
+          <tr class="flex items-center justify-between">
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Provider</th>
+          </tr>
+          {% for user in users %}
+          <tr class="flex items-center justify-between">
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.provider }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </section>
+    {% else %}
+    <section class="flex w-4/6 h-4/6">
+      <div class="flex flex-col items-center space-y-2  w-3/6 h-full border-r border-black">
+        <h1 class="text-xl font-semibold mb-16">Auth</h1>
+        <div class="flex justify-start w-3/6">
+          <label for="" class="w-full text-xs">Email</label>
+        </div>
+        <input type="email" class="border border-black outline-none rounded p-2 w-3/6">
+        <div class="flex justify-start w-3/6">
+          <label for="" class="w-full text-xs">Password</label>
+        </div>
+        <input type="password" class="border border-black outline-none rounded p-2 w-3/6">
+        <input type="button" value="Login" class="border border-black outline-none rounded p-2 w-3/6">
+
+      </div>
+      <div class="flex flex-col items-center space-y-2 w-3/6 h-full">
+        <h1 class="text-xl font-semibold mb-16">OAuth2</h1>
+        <a class="border border-black outline-none rounded p-2 w-3/6"
+          href="{{ url_for('oauth2_authorize', provider='github') }}">Login with Github</a>
+        <a class="border border-black outline-none rounded p-2 w-3/6"
+          href="{{ url_for('oauth2_authorize', provider='google') }}">Login with Google</a>
+        <a class="border border-black outline-none rounded p-2 w-3/6"
+          href="{{ url_for('oauth2_authorize', provider='facebook') }}">Login with Facebook</a>
+        <a class="border border-black outline-none rounded p-2 w-3/6"
+          href="{{ url_for('oauth2_authorize', provider='linkedin') }}">Login with LinkedIn</a>
+        <a class="border border-black outline-none rounded p-2 w-3/6"
+          href="{{ url_for('oauth2_authorize', provider='microsoft') }}">Login with Microsoft</a>
+    </section>
+    {% endif %}
+  </main>
+</body>
+
+</html>
